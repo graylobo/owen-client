@@ -275,9 +275,9 @@ const AppSidebar: React.FC = () => {
             <>
               <Image
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/images/logo/owen-logo.png"
                 alt="Logo"
-                width={150}
+                width={110}
                 height={40}
               />
               <Image

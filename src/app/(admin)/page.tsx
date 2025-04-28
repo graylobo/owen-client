@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Next.js E-commerce Dashboard | OwenFood - Next.js Dashboard Template",
-  description: "This is Next.js Home for OwenFood Dashboard Template",
+    "오웬푸드 관리자페이지 | OwenFood Admin",
 };
 
 export default function Ecommerce() {
