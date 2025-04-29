@@ -1,0 +1,81 @@
+name: deploy_on_dev
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install SSH Client
+        run: sudo apt-get install -y openssh-client
+
+      - name: Deploying development environment on frontend-1 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FRONTEND_1_IP }}
+          username: ${{ secrets.FRONTEND_1_USERNAME }}
+          key: ${{ secrets.FRONTEND_1_KEYPAIR }}
+          port: ${{ secrets.FRONTEND_1_PORT }}
+          proxy_host: ${{ secrets.OWENFOOD_BASTION_HOST_IP }}
+          proxy_username: ${{ secrets.OWENFOOD_BASTION_HOST_USERNAME }}
+          proxy_key: ${{ secrets.OWENFOOD_BASTION_HOST_KEYPAIR }}
+          script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            nvm use default &&
+            echo cd ~/src/courier-invoices-management-frontend
+            cd ~/src/courier-invoices-management-frontend &&
+            echo git reset --hard
+            git reset --hard &&
+            echo git checkout develop
+            git checkout develop &&
+            echo git pull
+            git pull &&
+            echo npm install
+            npm install &&
+            git reset --hard &&
+            git switch develop &&
+            git pull &&
+            cd ~/src/courier-invoices-management-frontend &&
+            NODE_OPTIONS="--max_old_space_size=1024" npm run build &&
+            pm2 restart courier-invoices-management-frontend &&
+            echo Deploying development environment on frontend-1 instance DONE SUCCESSFULLY...
+
+      - name: Deploying development environment on frontend-2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FRONTEND_2_IP }}
+          username: ${{ secrets.FRONTEND_2_USERNAME }}
+          key: ${{ secrets.FRONTEND_2_KEYPAIR }}
+          port: ${{ secrets.FRONTEND_2_PORT }}
+          proxy_host: ${{ secrets.OWENFOOD_BASTION_HOST_IP }}
+          proxy_username: ${{ secrets.OWENFOOD_BASTION_HOST_USERNAME }}
+          proxy_key: ${{ secrets.OWENFOOD_BASTION_HOST_KEYPAIR }}
+          script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            nvm use default &&
+            echo cd ~/src/courier-invoices-management-frontend
+            cd ~/src/courier-invoices-management-frontend &&
+            echo git reset --hard
+            git reset --hard &&
+            echo git checkout develop
+            git checkout develop &&
+            echo git pull
+            git pull &&
+            echo npm install
+            npm install &&
+            git reset --hard &&
+            git switch develop &&
+            git pull &&
+            cd ~/src/courier-invoices-management-frontend &&
+            NODE_OPTIONS="--max_old_space_size=1024" npm run build &&
+            pm2 restart courier-invoices-management-frontend &&
+            echo Deploying development environment on frontend-2 instance DONE SUCCESSFULLY...
