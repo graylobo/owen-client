@@ -4,8 +4,8 @@ export type RouteObject = { [key: string]: RouteDefinition | RouteObject };
 
 export const API_ROUTES = {
   
-  user: {
-    create: { url: "/user", method: "POST" },
+  users: {
+    create: { url: "/users", method: "POST" },
   },
  
 } as const satisfies RouteObject;

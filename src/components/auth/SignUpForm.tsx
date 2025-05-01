@@ -1,15 +1,56 @@
 "use client";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
+import { useCreateUser } from "@/hooks/api/use-user";
 import { EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import { useState } from "react";
+import { z } from "zod";
+
+const signUpSchema = z.object({
+  fname: z.string().min(2, "이름은 2자 이상 입력해주세요.").max(10, "이름은 10자 이하로 입력해주세요."),
+  email: z.string().email("유효한 이메일을 입력해주세요."),
+  password: z.string().min(6, "비밀번호는 6자 이상이어야 합니다."),
+});
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({
+    fname: "",
+    email: "",
+    password: "",
+  });
+  const { mutate, isPending, isSuccess, isError } = useCreateUser();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = signUpSchema.safeParse(form);
+    if (!result.success) {
+      const fieldErrors: { [key: string]: string } = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) fieldErrors[err.path[0]] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
+    mutate({
+      name: form.fname,
+      email: form.email,
+      password: form.password,
+      type: 'staff',
+      status: 'pending',
+    });
+  };
+  
+
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full overflow-y-auto no-scrollbar">
-     
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">
@@ -23,7 +64,7 @@ export default function SignUpForm() {
           </div>
           <div>
            
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-5">
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {/* <!-- Name --> */}
@@ -36,7 +77,10 @@ export default function SignUpForm() {
                       id="fname"
                       name="fname"
                       placeholder="Enter your name"
+                      defaultValue={form.fname}
+                      onChange={handleChange}
                     />
+                    {errors.fname && <div className="text-error-500 text-xs mt-1">{errors.fname}</div>}
                   </div>
                  
                 </div>
@@ -50,7 +94,10 @@ export default function SignUpForm() {
                     id="email"
                     name="email"
                     placeholder="Enter your email"
+                    defaultValue={form.email}
+                    onChange={handleChange}
                   />
+                  {errors.email && <div className="text-error-500 text-xs mt-1">{errors.email}</div>}
                 </div>
                 {/* <!-- Password --> */}
                 <div>
@@ -61,7 +108,11 @@ export default function SignUpForm() {
                     <Input
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
+                      name="password"
+                      defaultValue={form.password}
+                      onChange={handleChange}
                     />
+                    {errors.password && <div className="text-error-500 text-xs mt-1">{errors.password}</div>}
                     <span
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
@@ -76,10 +127,19 @@ export default function SignUpForm() {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
-                    관리자 계정 생성 요청
+                  <button
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
+                    disabled={isPending}
+                  >
+                    {isPending ? "요청 중..." : "관리자 계정 생성 요청"}
                   </button>
                 </div>
+                {isError && (
+                  <div className="text-error-500 text-sm">관리자 가입 요청 중 오류가 발생했습니다.</div>
+                )}
+                {isSuccess && (
+                  <div className="text-success-500 text-sm">관리자 가입 요청이 성공적으로 요청 되었습니다. 관리자 승인 이후 로그인이 가능합니다.</div>
+                )}
               </div>
             </form>
 
