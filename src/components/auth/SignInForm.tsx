@@ -2,12 +2,12 @@
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
+import { useSignIn } from "@/hooks/api/use-auth";
 import { EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useSignIn } from "@/hooks/api/use-auth";
-import { Toaster, toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export const signInSchema = z.object({
@@ -55,7 +55,6 @@ export default function SignInForm() {
 
   return (
     <>
-      <Toaster position="top-center" richColors />
       <div className="flex flex-col flex-1 lg:w-1/2 w-full">
         <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
         </div>

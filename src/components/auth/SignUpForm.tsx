@@ -1,13 +1,14 @@
 "use client";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
+import Button from "@/components/ui/button/Button";
 import { useCreateUser } from "@/hooks/api/use-user";
 import { EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { Toaster, toast } from "sonner";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const signUpSchema = z.object({
   fname: z.string().min(2, "이름은 2자 이상 입력해주세요.").max(10, "이름은 10자 이하로 입력해주세요."),
@@ -62,7 +63,6 @@ export default function SignUpForm() {
 
   return (
     <>
-      <Toaster position="top-center" richColors />
       <div className="flex flex-col flex-1 lg:w-1/2 w-full overflow-y-auto no-scrollbar">
         <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
           <div>
@@ -92,6 +92,7 @@ export default function SignUpForm() {
                         placeholder="Enter your name"
                         defaultValue={form.fname}
                         onChange={handleChange}
+                        disabled={isPending || isSuccess}
                       />
                       {errors.fname && <div className="text-error-500 text-xs mt-1">{errors.fname}</div>}
                     </div>
@@ -109,6 +110,7 @@ export default function SignUpForm() {
                       placeholder="Enter your email"
                       defaultValue={form.email}
                       onChange={handleChange}
+                      disabled={isPending || isSuccess}
                     />
                     {errors.email && <div className="text-error-500 text-xs mt-1">{errors.email}</div>}
                   </div>
@@ -124,6 +126,7 @@ export default function SignUpForm() {
                         name="password"
                         defaultValue={form.password}
                         onChange={handleChange}
+                        disabled={isPending || isSuccess}
                       />
                       {errors.password && <div className="text-error-500 text-xs mt-1">{errors.password}</div>}
                       <span
@@ -140,12 +143,12 @@ export default function SignUpForm() {
                   </div>
                   {/* <!-- Button --> */}
                   <div>
-                    <button
+                    <Button
                       className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
-                      disabled={isPending}
+                      disabled={isPending || isSuccess}
                     >
                       {isPending ? "요청 중..." : "관리자 계정 생성 요청"}
-                    </button>
+                    </Button>
                   </div>
                   {isError && (
                     <div className="text-error-500 text-sm">관리자 가입 요청 중 오류가 발생했습니다.</div>
