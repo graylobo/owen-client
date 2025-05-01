@@ -82,6 +82,7 @@ export default function SignInForm() {
                       name="email"
                       defaultValue={form.email}
                       onChange={handleChange}
+                      disabled={isPending || isSuccess}
                     />
                     {errors.email && <div className="text-error-500 text-xs mt-1">{errors.email}</div>}
                   </div>
@@ -96,6 +97,7 @@ export default function SignInForm() {
                         name="password"
                         defaultValue={form.password}
                         onChange={handleChange}
+                        disabled={isPending || isSuccess}
                       />
                       {errors.password && <div className="text-error-500 text-xs mt-1">{errors.password}</div>}
                       <span
@@ -111,7 +113,7 @@ export default function SignInForm() {
                     </div>
                   </div>
                   <div>
-                    <Button className="w-full" size="sm" disabled={isPending}>
+                    <Button className="w-full" size="sm" disabled={isPending || isSuccess}>
                       {isPending ? "로그인 중..." : "로그인"}
                     </Button>
                   </div>
