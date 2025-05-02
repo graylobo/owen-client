@@ -10,7 +10,7 @@ import { Toaster } from 'sonner';
 const outfit = Outfit({
   subsets: ["latin"],
 });
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
