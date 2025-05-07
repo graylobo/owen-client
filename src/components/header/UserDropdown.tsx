@@ -1,13 +1,16 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { useUserStore } from "@/store/useUserStore";
+import { signOut } from "@/services/auth/auth.service";
+import { useRouter } from "next/navigation";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
+  const router = useRouter();
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
@@ -17,6 +20,18 @@ export default function UserDropdown() {
   function closeDropdown() {
     setIsOpen(false);
   }
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setUser(null);
+      closeDropdown();
+      router.push('/signin');
+    } catch (error) {
+      console.error('Failed to sign out:', error);
+    }
+  };
+
   return (
     <div className="relative">
       <button
@@ -145,8 +160,8 @@ export default function UserDropdown() {
             </DropdownItem>
           </li> */}
         </ul>
-        <Link
-          href="/signin"
+        <button
+          onClick={handleSignOut}
           className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
         >
           <svg
@@ -165,7 +180,7 @@ export default function UserDropdown() {
             />
           </svg>
           Sign out
-        </Link>
+        </button>
       </Dropdown>
     </div>
   );
