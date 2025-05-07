@@ -22,7 +22,23 @@ api.interceptors.request.use(async (config) => {
 });
 
 api.interceptors.response.use(
-  (response) => {
+  async (response) => {
+    if (response.headers["set-cookie"]) {
+      const cookieStore = await cookies();
+      const setCookieHeader = response.headers["set-cookie"];
+      const tokenMatch = setCookieHeader.find((cookie) =>
+        cookie.startsWith("accessToken="),
+      );
+      if (tokenMatch) {
+        const token = tokenMatch.split(";")[0].split("=")[1];
+        cookieStore.set("accessToken", token, {
+          httpOnly: true,
+          path: "/",
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+        });
+      }
+    }
     return response;
   },
   (error) => {
