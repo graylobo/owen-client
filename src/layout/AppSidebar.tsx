@@ -4,11 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSidebar } from "../context/SidebarContext";
-import {
-  ChevronDownIcon,
-  GridIcon,
-  HorizontaLDots
-} from "../icons/index";
+import { ChevronDownIcon, GridIcon, HorizontaLDots } from "../icons/index";
 
 type NavItem = {
   name: string;
@@ -20,8 +16,27 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    name: "영업관리",
+    subItems: [
+      { name: "상품관리", path: "/management/products", pro: false },
+      { name: "판매처목록", path: "/management/sellers", pro: false },
+      { name: "출고처목록", path: "/management/shippers", pro: false },
+    ],
+  },
+  {
+    icon: <GridIcon />,
+    name: "영업지원",
+    subItems: [
+      { name: "발주서 업로드", path: "/support/upload", pro: false },
+      { name: "업로드 실패 확인", path: "/support/failures", pro: false },
+      { name: "송장번호 업로드", path: "/support/tracking", pro: false },
+      {
+        name: "데이터 업로드(이지어드민)",
+        path: "/support/easy-admin",
+        pro: false,
+      },
+      { name: "아마란스 양식관리", path: "/support/amaranth", pro: false },
+    ],
   },
   // {
   //   icon: <CalenderIcon />,
@@ -53,8 +68,6 @@ const navItems: NavItem[] = [
   //   ],
   // },
 ];
-
-
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
@@ -196,13 +209,13 @@ const AppSidebar: React.FC = () => {
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // const isActive = (path: string) => path === pathname;
-   const isActive = useCallback((path: string) => path === pathname, [pathname]);
+  const isActive = useCallback((path: string) => path === pathname, [pathname]);
 
   useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
     ["main"].forEach((menuType) => {
-      const items = navItems
+      const items = navItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
@@ -222,7 +235,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname,isActive]);
+  }, [pathname, isActive]);
 
   useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
