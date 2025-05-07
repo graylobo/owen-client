@@ -1,6 +1,8 @@
 'use client'
 import { Outfit } from 'next/font/google';
 import './globals.css';
+import { useEffect } from 'react';
+import { useUserStore } from '@/store/useUserStore';
 
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -10,6 +12,7 @@ import { Toaster } from 'sonner';
 const outfit = Outfit({
   subsets: ["latin"],
 });
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,21 +22,35 @@ const queryClient = new QueryClient({
   },
 });
 
+function RootLayoutContent({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  useEffect(() => {
+    useUserStore.persist.rehydrate();
+  }, []);
+
+  return (
+    <html lang="en">
+      <body className={`${outfit.className} dark:bg-gray-900`}>
+        <ThemeProvider>
+          <Toaster position="top-center" richColors />
+          <SidebarProvider>{children}</SidebarProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${outfit.className} dark:bg-gray-900`}>
-        <ThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <Toaster position="top-center" richColors />
-          <SidebarProvider>{children}</SidebarProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <RootLayoutContent>{children}</RootLayoutContent>
+    </QueryClientProvider>
   );
 }
