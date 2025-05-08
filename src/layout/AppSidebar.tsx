@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSidebar } from "../context/SidebarContext";
-import { ChevronDownIcon, GridIcon, HorizontaLDots } from "../icons/index";
+import { ChevronDownIcon, GridIcon } from "../icons/index";
 
 type NavItem = {
   name: string;
