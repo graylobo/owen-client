@@ -1,0 +1,59 @@
+@use "sass:color";
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 60vh;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #424242;
+  }
+
+  p {
+    color: #616161;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.resetButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #48a4ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: color.adjust(#48a4ff, $lightness: -10%);
+  }
+}
+
+.homeLink {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  color: #616161;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
