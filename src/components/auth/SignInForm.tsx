@@ -64,7 +64,7 @@ export default function SignInForm() {
                 OWEN FOOD LOGIN
               </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                계정 정보를 입력 해주세요.
+                계정 정보를 입력 해주세요!
               </p>
             </div>
             <div>
