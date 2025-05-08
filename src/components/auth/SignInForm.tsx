@@ -56,16 +56,15 @@ export default function SignInForm() {
   return (
     <>
       <div className="flex flex-col flex-1 lg:w-1/2 w-full">
-        <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
-        </div>
+        <div className="w-full max-w-md sm:pt-10 mx-auto mb-5"></div>
         <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
           <div>
             <div className="mb-5 sm:mb-8">
               <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
-              OWEN FOOD LOGIN
+                OWEN FOOD LOGIN
               </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                계정 정보를 입력해주세요.
+                계정 정보를 입력 해주세요.
               </p>
             </div>
             <div>
@@ -83,7 +82,11 @@ export default function SignInForm() {
                       onChange={handleChange}
                       disabled={isPending || isSuccess}
                     />
-                    {errors.email && <div className="text-error-500 text-xs mt-1">{errors.email}</div>}
+                    {errors.email && (
+                      <div className="text-error-500 text-xs mt-1">
+                        {errors.email}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <Label>
@@ -98,7 +101,11 @@ export default function SignInForm() {
                         onChange={handleChange}
                         disabled={isPending || isSuccess}
                       />
-                      {errors.password && <div className="text-error-500 text-xs mt-1">{errors.password}</div>}
+                      {errors.password && (
+                        <div className="text-error-500 text-xs mt-1">
+                          {errors.password}
+                        </div>
+                      )}
                       <span
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
@@ -112,7 +119,11 @@ export default function SignInForm() {
                     </div>
                   </div>
                   <div>
-                    <Button className="w-full" size="sm" disabled={isPending || isSuccess}>
+                    <Button
+                      className="w-full"
+                      size="sm"
+                      disabled={isPending || isSuccess}
+                    >
                       {isPending ? "로그인 중..." : "로그인"}
                     </Button>
                   </div>
