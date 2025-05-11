@@ -16,27 +16,18 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
-    name: "영업관리",
-    subItems: [
-      { name: "상품관리", path: "/management/products", pro: false },
-      { name: "판매처목록", path: "/management/sellers", pro: false },
-      { name: "출고처목록", path: "/management/shippers", pro: false },
-    ],
+    name: "거래처 관리",
+    path: "/client-management",
   },
   {
     icon: <GridIcon />,
-    name: "영업지원",
-    subItems: [
-      { name: "발주서 업로드", path: "/support/upload", pro: false },
-      { name: "업로드 실패 확인", path: "/support/failures", pro: false },
-      { name: "송장번호 업로드", path: "/support/tracking", pro: false },
-      {
-        name: "데이터 업로드(이지어드민)",
-        path: "/support/easy-admin",
-        pro: false,
-      },
-      { name: "아마란스 양식관리", path: "/support/amaranth", pro: false },
-    ],
+    name: "거래처 발주서",
+    path: "/client-invoice-upload",
+  },
+  {
+    icon: <GridIcon />,
+    name: "상품 관리",
+    path: "/product-management",
   },
   // {
   //   icon: <CalenderIcon />,
