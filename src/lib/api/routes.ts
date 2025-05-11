@@ -8,7 +8,7 @@ export const API_ROUTES = {
   },
   users: {
     create: { url: "/users", method: "POST" },
+    findAll: { url: "/users", method: "GET" },
+    update: { url: "/users", method: "PATCH" },
   },
- 
 } as const satisfies RouteObject;
-
