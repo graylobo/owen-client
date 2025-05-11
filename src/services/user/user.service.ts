@@ -13,9 +13,9 @@ export async function findAllUsers() {
   return data;
 }
 
-export async function updateUserStatus(userId: string, status: string) {
+export async function updateUserStatus(userEmail: string, status: string) {
   const { data } = await api.patch(
-    `${API_ROUTES.users.update.url}/${userId}/status`,
+    `${API_ROUTES.users.update.url}/${userEmail}/status`,
     { status }
   );
   return data;

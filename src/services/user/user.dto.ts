@@ -7,7 +7,6 @@ export interface CreateUserDto {
 }
 
 export interface User {
-  id: string;
   name: string;
   email: string;
   type: "staff" | "administrator" | "platform_owner";

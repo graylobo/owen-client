@@ -16,9 +16,12 @@ export default function AccountManagement() {
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const handleStatusChange = async (userId: string, newStatus: string) => {
+  const handleStatusChange = async (userEmail: string, newStatus: string) => {
     try {
-      await updateUserStatusMutation.mutateAsync({ userId, status: newStatus });
+      await updateUserStatusMutation.mutateAsync({
+        userEmail,
+        status: newStatus,
+      });
       queryClient.invalidateQueries({ queryKey: ["users"] });
     } catch (error) {
       console.error("Failed to update user status:", error);
@@ -111,7 +114,7 @@ export default function AccountManagement() {
                       className="px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={user.status}
                       onChange={(e) =>
-                        handleStatusChange(user.id, e.target.value)
+                        handleStatusChange(user.email, e.target.value)
                       }
                       disabled={updateUserStatusMutation.isPending}
                     >

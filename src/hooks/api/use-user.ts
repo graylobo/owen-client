@@ -21,7 +21,12 @@ export function useGetAllUsers<T = User[]>() {
 
 export function useUpdateUserStatus() {
   return useMutation({
-    mutationFn: ({ userId, status }: { userId: string; status: string }) =>
-      updateUserStatus(userId, status),
+    mutationFn: ({
+      userEmail,
+      status,
+    }: {
+      userEmail: string;
+      status: string;
+    }) => updateUserStatus(userEmail, status),
   });
 }
